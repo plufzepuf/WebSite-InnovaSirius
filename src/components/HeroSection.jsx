@@ -15,7 +15,7 @@ const scrollToForm = () => {
 export default function Hero() {
   return (
     <header className="hero">
-      <div className="container">
+      <div className="hero__container">
         <div className="hero__header">
           <img src={logo} alt="Logo" className="hero__logo" />
         </div>

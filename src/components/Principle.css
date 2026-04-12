@@ -1,6 +1,3 @@
-* {
-  box-sizing: border-box;
-}
 
 .principle {
   width: 100%;
@@ -8,6 +5,7 @@
   background-color: #fff;
   display: flex;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .principle__container {

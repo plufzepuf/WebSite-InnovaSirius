@@ -122,7 +122,7 @@ export default function Monitoring() {
 
   return (
     <section className="monitoring">
-      <div className="container">
+      <div className="monitoring__container">
         <h2 className="monitoring__title">
           Инновационный мониторинг <br />
           воздуха там, где это важно
