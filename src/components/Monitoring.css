@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 
-.container{
+.monitoring__container{
     max-width: 1500px;
 }
 
@@ -42,20 +42,19 @@
   border-radius: 11px;
   border: 2px solid;
   padding: 5px 0;
-  top: 15px;
+  top: 13px;
 }
 
 .monitoring__tabs-indicator {
   position: absolute;
-  top: 0px;
-  bottom: 1px;
+  top: -2px;     /* Компенсируем толщину бордера */
+  bottom: -2px;  /* Растягиваем до самого низа */
   background-color: #ffffff;
-  border-radius: 11px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  border-radius: 11px 11px 0 0;
   z-index: 1;
-  border: 2px solid;
-  border-top: 0;
+  border: 2px solid #000;
+  border-bottom: 2px solid #fff; /* БЕЛЫЙ бордер снизу перекроет ЧЕРНУЮ рамку контента */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .monitoring__tab-btn {
