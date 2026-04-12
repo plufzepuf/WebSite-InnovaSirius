@@ -83,7 +83,7 @@
 }
 
 .principle__subtitle {
-  width: 80%;
+  width: 100%;
   font-family: 'TT Travels', sans-serif;
   font-size: clamp(12px, 1.2vw, 18px);
   color: #8a8a8a;
