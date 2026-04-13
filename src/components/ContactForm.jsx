@@ -3,13 +3,13 @@ import './ContactForm.css';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    company: '',
+    name: '',
+    organization: '',
     phone: '',
     email: '',
-    message: '',
-    agreement: false,
-    promo: false
+    problemDescription: '',
+    consentDataProcessing: false,
+    consentPromo: false
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,10 +31,10 @@ export default function ContactForm() {
 
     // Валидация важных полей
     const isFormValid = 
-      formData.firstName.trim() !== '' && 
+      formData.name.trim() !== '' && 
       formData.phone.trim() !== '' && 
       formData.email.trim() !== '' && 
-      formData.agreement;
+      formData.consentDataProcessing;
 
     if (!isFormValid) return;
 
@@ -42,22 +42,36 @@ export default function ContactForm() {
     setError(null);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setIsSubmitting(false);
+      const API_URL = import.meta.env.VITE_API_URL || "";
+
+      const res = await fetch(`${API_URL}/api/contact/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Ошибка отправки");
+
       setIsSuccess(true);
       setAttemptedSubmit(false);
+
       setFormData({
-        firstName: '',
-        company: '',
+        name: '',
+        organization: '',
         phone: '',
         email: '',
-        message: '',
-        agreement: false,
-        promo: false
+        problemDescription: '',
+        consentDataProcessing: false,
+        consentPromo: false
       });
+
     } catch (err) {
-      setIsSubmitting(false);
+      console.error(err);
       setError("Ошибка при отправке. Попробуйте позже.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -83,18 +97,18 @@ export default function ContactForm() {
             <div className="contact__row">
               <input 
                 type="text" 
-                name="firstName" 
+                name="name" 
                 placeholder="Имя *" 
-                className={`contact__input ${isInvalid('firstName') ? 'contact__input--error' : ''}`}
-                value={formData.firstName}
+                className={`contact__input ${isInvalid('name') ? 'contact__input--error' : ''}`}
+                value={formData.name}
                 onChange={handleChange}
               />
               <input 
                 type="text" 
-                name="company" 
+                name="organization" 
                 placeholder="Организация" 
                 className="contact__input"
-                value={formData.company}
+                value={formData.organization}
                 onChange={handleChange}
               />
             </div>
@@ -120,11 +134,11 @@ export default function ContactForm() {
 
             <div className="contact__row contact__row--full">
              <textarea 
-              name="message" 
+              name="problemDescription" 
               placeholder="Опишите свою проблему" 
               className="contact__input contact__textarea"
               rows="1"
-              value={formData.message}
+              value={formData.problemDescription}
               onChange={handleChange}
              ></textarea>
             </div>
@@ -133,9 +147,9 @@ export default function ContactForm() {
               <label className={`contact__checkbox-label ${isInvalid('agreement') ? 'contact__checkbox-label--error' : ''}`}>
                 <input 
                   type="checkbox" 
-                  name="agreement" 
+                  name="consentDataProcessing" 
                   className="contact__checkbox-hidden"
-                  checked={formData.agreement}
+                  checked={formData.consentDataProcessing}
                   onChange={handleChange}
                 />
                 <span className="contact__checkbox-custom"></span>
@@ -145,9 +159,9 @@ export default function ContactForm() {
               <label className="contact__checkbox-label">
                 <input 
                   type="checkbox" 
-                  name="promo" 
+                  name="consentPromo" 
                   className="contact__checkbox-hidden"
-                  checked={formData.promo}
+                  checked={formData.consentPromo}
                   onChange={handleChange}
                 />
                 <span className="contact__checkbox-custom"></span>
