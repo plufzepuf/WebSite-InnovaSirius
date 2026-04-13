@@ -38,23 +38,36 @@
 .monitoring__tabs-list {
   display: inline-flex;
   position: relative;
-  background: #F5F9FF;
-  border-radius: 11px;
-  border: 2px solid;
-  padding: 5px 0;
-  top: 13px;
+  padding: 0; /* Важно: 0, чтобы индикатор в left:0 совпал с краем первой кнопки */
+  margin-bottom: -2px;
+  border: 2px solid #000;
+  border-bottom: none;
+  border-radius: 11px 11px 0 0;
+  background-color: #F5F9FF;
 }
 
 .monitoring__tabs-indicator {
   position: absolute;
-  top: -2px;     /* Компенсируем толщину бордера */
-  bottom: -2px;  /* Растягиваем до самого низа */
+  top: -2px;
+  bottom: -2px;
+  left: 0;
+  z-index: 1;
+  
+  /* --- ВОТ ТУТ ПРАВИМ --- */
+  /* Задай здесь ширину, которую ты видишь у первой кнопки (примерно 255px) */
+  width: var(--initial-width, 255px); 
+  
   background-color: #ffffff;
   border-radius: 11px 11px 0 0;
-  z-index: 1;
   border: 2px solid #000;
-  border-bottom: 2px solid #fff; /* БЕЛЫЙ бордер снизу перекроет ЧЕРНУЮ рамку контента */
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  border-bottom: 2px solid #fff;
+  
+  /* Гарантируем, что он стоит в самом начале */
+  transform: translateX(0); 
+  
+  /* Оставляем транзишн, чтобы потом он плавно уезжал */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+              width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .monitoring__tab-btn {
@@ -75,7 +88,7 @@
   border: 2px solid;
   border-radius: 0px 20px 20px 20px; 
   padding: 40px;
-  background: linear-gradient(180deg, #ffffff 50%, #E8F0FE 100%);
+  background: linear-gradient(180deg, #ffffff 50%, #CCDFFF 100%);
   transition: opacity 0.3s ease, transform 0.1s ease;
 }
 

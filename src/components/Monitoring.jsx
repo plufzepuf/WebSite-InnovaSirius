@@ -1,8 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import './Monitoring.css';
 
-
-import defaultLogo from '../assets/svg/Logo.svg'; 
 import photo1 from '../assets/photos/menu1.jpg';
 import photo2 from '../assets/photos/menu2.png';
 import photo3 from '../assets/photos/menu3.png';
@@ -54,7 +52,7 @@ const tabsData = [
       },
       {
         title: 'Доказательная база для урегулирования',
-        desc: 'Итог для бизнеса — испорченный рейтинг, негативные отзывыи постоянные расходы на химчистку салона. Наша система фиксирует пар за 5 секунд, позволяя проводникам, стюардам или операторам каршеринга мгновенно выявлять нарушения.'
+        desc: 'Итог для бизнеса — испорченный рейтинг, негативные отзывы и постоянные расходы на химчистку салона. Наша система фиксирует пар за 5 секунд, позволяя проводникам, стюардам или операторам каршеринга мгновенно выявлять нарушения.'
       }
     ] 
   },
@@ -94,12 +92,15 @@ const tabsData = [
 
 export default function Monitoring() {
   const [activeTab, setActiveTab] = useState(0);
-  const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    width: 255, // Твоя стартовая ширина из CSS
+    transform: 'translateX(0px)'
+  });
   const [isAnimating, setIsAnimating] = useState(false);
   
   const tabsRef = useRef([]);
 
-  useEffect(() => {
+  const updateIndicator = () => {
     const currentTab = tabsRef.current[activeTab];
     if (currentTab) {
       setIndicatorStyle({
@@ -107,6 +108,20 @@ export default function Monitoring() {
         transform: `translateX(${currentTab.offsetLeft}px)`
       });
     }
+  };
+
+  // Мгновенный расчет до отрисовки
+  useLayoutEffect(() => {
+    updateIndicator();
+  }, [activeTab]);
+
+  // Пересчет при изменении окна или загрузке шрифтов
+  useEffect(() => {
+    if (document.fonts) {
+      document.fonts.ready.then(updateIndicator);
+    }
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
   }, [activeTab]);
 
   const handleTabClick = (index) => {
@@ -127,10 +142,14 @@ export default function Monitoring() {
           Инновационный мониторинг <br />
           воздуха там, где это важно
         </h2>
+
         <div className="monitoring__desktop-view">
           <div className="monitoring__tabs-wrapper">
             <div className="monitoring__tabs-list">
-              <div className="monitoring__tabs-indicator" style={indicatorStyle}></div>
+              <div 
+                className="monitoring__tabs-indicator" 
+                style={indicatorStyle}
+              ></div>
               {tabsData.map((tab, index) => (
                 <button
                   key={tab.id}
@@ -158,7 +177,7 @@ export default function Monitoring() {
               </div>
 
               <div className="monitoring__text-content">
-                {activeData.points && activeData.points.map((point, idx) => (
+                {activeData.points.map((point, idx) => (
                   <div key={idx} className="monitoring__point">
                     <h4 className="monitoring__point-title">• {point.title}</h4>
                     <p className="monitoring__point-desc">{point.desc}</p>
@@ -168,6 +187,7 @@ export default function Monitoring() {
             </div>
           </div>
         </div>
+
         <div className="monitoring__mobile-accordion">
           {tabsData.map((tab, index) => (
             <div 
@@ -189,7 +209,7 @@ export default function Monitoring() {
                   </div>
 
                   <div className="monitoring__text-content">
-                    {tab.points && tab.points.map((point, idx) => (
+                    {tab.points.map((point, idx) => (
                       <div key={idx} className="monitoring__point">
                         <h4 className="monitoring__point-title">• {point.title}</h4>
                         <p className="monitoring__point-desc">{point.desc}</p>
@@ -207,7 +227,6 @@ export default function Monitoring() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
