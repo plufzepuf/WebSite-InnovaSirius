@@ -38,7 +38,7 @@
 .monitoring__tabs-list {
   display: inline-flex;
   position: relative;
-  padding: 0; /* Важно: 0, чтобы индикатор в left:0 совпал с краем первой кнопки */
+  padding: 0;
   margin-bottom: -2px;
   border: 2px solid #000;
   border-bottom: none;
@@ -53,8 +53,6 @@
   left: 0;
   z-index: 1;
   
-  /* --- ВОТ ТУТ ПРАВИМ --- */
-  /* Задай здесь ширину, которую ты видишь у первой кнопки (примерно 255px) */
   width: var(--initial-width, 255px); 
   
   background-color: #ffffff;
@@ -62,10 +60,8 @@
   border: 2px solid #000;
   border-bottom: 2px solid #fff;
   
-  /* Гарантируем, что он стоит в самом начале */
   transform: translateX(0); 
   
-  /* Оставляем транзишн, чтобы потом он плавно уезжал */
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
               width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -245,17 +241,30 @@
   }
 
   .monitoring__visual {
-    order: 2; 
+    order: 2;
+    display: flex;
+    align-items: center;
   }
 
   .monitoring__photo-frame {
     aspect-ratio: 16 / 10;
+    max-width: 50vw;
   }
 }
 
 @media (max-width: 600px) {
   .monitoring__content-box {
     padding: 20px;
+  }
+
+  .monitoring__visual {
+    order: 2;
+    display:block;
+  }
+
+  .monitoring__photo-frame {
+    aspect-ratio: 16 / 10;
+    max-width: none;
   }
   
   .monitoring__tab-btn {

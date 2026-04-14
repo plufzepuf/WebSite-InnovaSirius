@@ -113,6 +113,14 @@
     order: 1;
   }
 
+  .achiev__main-img {
+  width: 90vw;
+  height: 50vw;
+  object-fit:cover;
+  display: flex;
+  justify-self: center;
+}
+
   .achiev__top-layer {
     position: relative;
     inset: auto;
@@ -130,8 +138,10 @@
     display: none;
   }
 
-  .achiev__btn {
-    top: auto;
-    bottom: -60px;
+  .achiev__btn--prev{
+    left: -50px;
+  }
+  .achiev__btn--next{
+    right: -50px;
   }
 }
