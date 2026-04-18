@@ -3,6 +3,10 @@
   min-height: 10vh;
   padding-top: 20px;
   font-family: 'TT Travels';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero__container {
