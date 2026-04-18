@@ -130,7 +130,6 @@
   animation: none !important;
 }
 
-/* 2. Если галочка стоит - отменяем красную рамку у самого квадратика */
 .contact__checkbox-label:has(.contact__checkbox-hidden:checked) .contact__checkbox-custom {
   border-color: #000000 !important;
   background-color: #000000 !important;
@@ -163,6 +162,14 @@
   align-items: center;
   min-height: 74px;
   margin: 0  auto;
+}
+
+.hero__btn:hover {
+  opacity: 0.9;
+}
+
+.hero__btn:active {
+  transform: scale(0.98);
 }
 
 .contact__btn:disabled {
